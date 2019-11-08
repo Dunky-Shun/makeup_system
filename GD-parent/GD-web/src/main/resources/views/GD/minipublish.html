@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<!--描述：easyui基础包-->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js"></script>
+<style>
+.about_content {
+	width:700px;
+	height:500px;
+	border:1px solid grey;
+}
+#photo {
+	margin-left:10px;
+	margin-top:10px;
+	width: 100px;
+	border: 1px solid black;
+}
+#u_photo {
+	width: 100px;
+}
+#perinfo {
+	margin-left: 40%;
+}
+</style>
+</head>
+<body>
+
+	<!--  <div
+		style="display: flex; justify-content: center; align-items: center; margin-top: 50px">
+		<form action="/Makeup/upload" id="publish_content" method="post"
+			enctype="multipart/form-data">
+			主题：<input type="text" class="easyui-textbox" id="topic"></br>
+			</br> 内容：<input type="text" class="easyui-textbox" id="content"></br>
+			</br>
+			<!--  图片：<input class="easyui-filebox" name="file"
+				data-options="buttonText:'选择图片', accept:'image/jpeg,image/jpeg,image/png' ">--
+			</br>
+			</br>
+			<div style="margin-bottom: 20px">
+				帖子类型： <input type="radio" name="type" class="easyui-radiobutton"
+					value="科普贴">科普贴 <input type="radio" name="type"
+					class="easyui-radiobutton" value="求知帖">求知帖</br>
+			</div>
+
+			点击添加图片：<input type="button" id="add"
+				onclick="document.getElementById('addimg').style.display='block'"></br>
+			<!-- 添加图片界面 --
+			<div id="addimg" style="display: none"></div>
+			<!-- 存放图片 --
+			<div id=""></div>
+			<input type="button" id="submit" value="发布" class="easyui-linkbutton"
+				style="width: 150px; height: 30px; margin-left: 40px; margin-top: 20px">
+		</form>
+
+	</div>
+
+	<script>
+		$("#add").click(function() {
+
+			$("#addimg").dialog({
+				title : '添加图片',
+				width : 300,
+				height : 200,
+				closed : false,
+				closable : true,
+				cache : false,
+				//queryParams:{submitURL:p_id},
+				href : 'addimg.html',
+				modal : true
+			});
+		});
+	</script>-->
+	
+	<!-- 
+			用户名：<p id="username"></p>
+			性别：<p id="gender"></p>
+			邮箱：<p id="email"></p>
+			手机：<p id="phonenum"></p>
+			个性签名：<p id="tag"></p>
+	 -->
+	<div class="about_content">
+	<div id="perinfo">
+			<h1>个人信息</h1>
+			<input type="text" id="input1" value="中国" disabled="true"> 
+		</div>
+		<div id="photo">
+			<img id="u_photo" src="/img/moren.png">
+		</div>
+		<div>
+			用户名：<input type="text" name="username" id="ddd" class="easyui-textbox"   >
+		</div>
+		<input type="button" id="button" value="点击修改">
+	</div>
+	<div id="changeinfo"></div>
+	
+	<div>
+	<a href="javascript:void()">赞</a>
+	</div>
+	
+	<script>
+		//var username = "jacky";
+		
+		
+	$("#button").click(function(){
+		//$("#input1").removeAttr("disabled");
+		//$("#button").hidden=true;
+		$("#changeinfo").dialog({
+			title: "ok",
+			width: '400px',
+			height: '600px',
+			href: '/views/GD/changeinfo.html'
+		});
+		//var t = "ok";
+		//alert($("#username").val());
+		//easyUI中的textbox设值格式$("***").textbox("setValue",***)
+	//	$("#ddd").textbox("setValue",t);	
+		
+		
+	
+	});
+	</script>
+</body>
+</html>

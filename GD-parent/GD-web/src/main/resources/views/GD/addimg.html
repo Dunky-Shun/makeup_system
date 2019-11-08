@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<!--描述：easyui基础包-->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<form action="/Makeup/upload" id="publish_content" method="post" enctype="multipart/form-data" 
+target="iframe1">
+			
+			 <input class="easyui-filebox" name="file" id="img"
+				data-options="buttonText:'选择图片', accept:'image/jpeg,image/jpeg,image/png'">
+				 
+			<input id="111" type="submit" value="ss"  >
+			<input type="button" id="ccc">
+	</form>
+	<iframe name="iframe1" style="display:none" >555</iframe>
+	 
+	
+<script type="text/javascript">
+
+$("#ccc").click(function(){
+	var xx = $("#img").filebox('getValue');
+	var xxx = xx.split("\\");
+	alert(xxx[2]);
+});
+</script>
+</body>
+</html>

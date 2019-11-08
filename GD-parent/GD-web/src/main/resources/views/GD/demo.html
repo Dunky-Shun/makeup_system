@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/main.css">
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<style>
+@font-face {
+	font-family: mFont;
+	src: url('/layui/font/Atmosphere-Regular.ttf');
+}
+
+body {
+	background: url(/img/tip.jpg);
+	background-size: cover;
+}
+
+.hh {
+	position: relative;
+	margin-left: 40%;
+	width: 400px;
+}
+
+h1 {
+	font: bold 30px mFont;
+	font-size: 50px;
+}
+
+h2 {
+	font: bold 30px mFont;
+	font-size: 50px;
+	margin-left: 100px;
+}
+
+.title {
+	/*margin-left: 40%;*/
+	margin-top: 100px
+}
+
+.login {
+	width: 300px;
+	position: relative;
+	/*margin-left: 40%;*/
+	/*margin-top:150px;*/
+	text-align: center;
+}
+
+.extra {
+	/*margin-left: 40%;*/
+	
+}
+</style>
+</head>
+<body>
+	<div>
+		<input type="image" src="/img/logo.png">
+	</div>
+	
+		<div class="hh">
+		<div class="title">
+			<h1>Welcome</h1>
+			<h2>to B&&H</h2>
+		</div>
+		<div class="login">
+
+				<form id="loginform">
+					<input name="uname" id="uname" class="easyui-textbox"
+						data-options="iconCls:'icon-man'" prompt="Username"
+						style="width: 300px; height: 50px"></br> </br> <input
+						name="password" id="password" class="easyui-passwordbox"
+						prompt="Password" style="width: 300px; height: 50px"></br> </br> <input
+						id="submit" class="easyui-linkbutton" value='登录'
+						style="width: 150px; height: 40px;">
+				</form>
+
+		</div>
+		<div class="extra">
+			<a href="/views/GD/register.html">申请账号</a> 
+			<!--  <a style="margin-left: 180px">忘记密码</a>-->
+		</div>
+		
+		</div>
+		
+
+
+	<script type="text/javascript">
+		$("#submit").click(function() {
+			//var username = $("#username").val();
+			//var password = $("#password").val();
+			//使用serialize()时 表单要包含name属性
+			var params = $("#loginform").serialize();
+			$.post("/User/login", params, function(rt) {
+				// 获取后台返回的结果，进行相应的处理
+				if (rt.status == "success") {
+					location.href = "/views/GD/choose.html";
+				} else {
+					alert(rt.msg);
+				}
+			}, "json");
+
+		});
+		
+		function signin(){
+			location.href = "/views/GD/register.html";		
+			}
+	</script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>个人中心</title>
+<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/main.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/person.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/page.css">
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<link href="/css/themes/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link rel="stylesheet" href="/css/themes/reset.css">
+<script src="/js/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.1.1.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js"></script>
+<!--加载meta IE兼容文件-->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+	<div class="header">
+		<div class="menu-btn">
+			<div class="menu"></div>
+		</div>
+		<h1 class="logo">
+			<a href="index.html"> <span>MYBLOG</span> <img
+				src="/img/logo.png">
+			</a>
+		</h1>
+		<div class="nav">
+			<a href="youpi.html">首页</a> <a href="recommend.html">推荐</a> <a
+				href="leacots.html">发帖</a> <a href="person.html" class="active">个人中心</a>
+			<!-- 搜索功能 -->
+			<input class="easyui-searchbox" style="width: 200px; height: 40px" />
+		</div>
+		<ul class="layui-nav header-down-nav">
+			<li class="layui-nav-item"><a href="youpi.html">文章</a></li>
+			<li class="layui-nav-item"><a href="whisper.html">推荐</a></li>
+			<li class="layui-nav-item"><a href="album.html">发帖</a></li>
+			<li class="layui-nav-item"><a href="person.html" class="active">个人中心</a></li>
+		</ul>
+		<span style="float: right; padding-right: 20px;" class="welcome-text">欢迎
+			<a id="user"></a> <a id="u_id" style="display: none"></a> <a
+			href="/User/logout" id="loginOut">安全退出</a>
+		</span>
+
+	</div>
+
+	<div id="per_head">
+
+		<div id="per_photo">
+			<!--
+            	作者：offline
+            	时间：2019-09-25
+            	
+            	描述：动态加载头像
+            -->
+			<img id="per_img"
+				style="width: 100px; height: 100px; background-color: #ffffff; border-radius: 50%; border: solid 1px grey;">
+		</div>
+		<div id="username" style="margin-top: 20px;">
+			<div id="username_sub">
+				<h1 id="h1_username">Username</h1>
+			</div>
+			<ul>
+				<li id="user_privilege">会员等级</li>
+				<li id="great_account">获得赞数</li>
+			</ul>
+			<input type='button' class="easyui-linkbutton" id='upgrade' value='升级身份等级'>
+			<!--//把点赞数隐藏到页面中 为升级等级作为判断条件  -->
+			<a id = 'great_account_value'style="display:none">隐藏获得的点赞数</a>
+			<a id = 'privilege_id'style="display:none">修改用户等级的id</a>
+		</div>
+
+		<!--
+        	作者：offline
+        	时间：2019-09-25
+        	描述： 等级信息
+        -->
+<!-- 		<div id="per_main">
+			<div id="per_main_sub" style="margin-top: 40px;">
+				<tr>
+					<td><a href="#" class="easyui-linkbutton"
+						style="color: #000000;">我的主页</a></td>
+					<td><a href="#" class="easyui-linkbutton"
+						style="color: #000000; margin-left: 40px;">我的发帖</a></td>
+				</tr>
+			</div>
+
+		</div>-->
+
+	</div>
+
+
+	<div id="per_body">
+		<div>
+			<div id="my_left">
+			<div id="my_follow">
+				<div id="my_follow_sub">
+					<tr>
+						<td><a class="easyui-linkbutton" href="#">关注</a></td>
+						<td><a class="easyui-linkbutton" style="margin-left: 40px;">粉丝</a>
+						</td>
+					</tr>
+				</div>
+
+			</div>
+
+			<div id="per_info">
+				<div id="per_info_details">
+					<ul id="ul_details">
+						<li id="email">邮箱：</li>
+						</br>
+						<li id="phonenum">手机：</li>
+						</br>
+						<li id="intro">简介：</li>
+					</ul>
+				</div>
+				<div id="change_info">
+					<a id="change_info_a" class="easyui-linkbutton" style="margin-top: 15px; margin-bottom: 8px;">点击编辑信息</a>
+				</div>
+				<div id="change">
+				</div>
+			</div>
+
+
+		</div>
+
+		<div id="my_publish"></div>
+			
+		</div>
+		
+	
+	</div>
+	<div id="per_foot">
+		<div id="demo" style="position:float;"></div>
+	</div>
+
+
+
+	<div id="mb_menu" class="mb_menu">
+		<a href="/views/GD/youpi.html" data-speed="1000">油皮专区</a> 
+		<a href="/views/GD/ganxing.html" data-speed="1000"data-easing="easeInExpo">干皮专区</a>
+		<a href="/views/GD/hunhe.html" data-speed="1000"data-easing="easeOutBack">混合性</a> 
+		<a href="/views/GD/mingan.html" data-speed="1000"data-easing="easeInExpo">敏感肌</a> 
+		<a href="/views/GD/tuijian.html" data-speed="1000"data-easing="easeInExpo">专家解惑</a>
+	</div>
+
+	<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript">
+
+	$("#upgrade").click(function(){
+		var count = $("#great_account_value").html();
+		var uid = $("#u_id").html();
+		var id = $("#privilege_id").html();
+		var privilege = $("#user_privilege").html();
+		//alert(privilege);
+		
+		if(privilege=="普通用户"){
+			if(count>=20){
+				//修改用户等级
+				$.post("/User_privilege/update",
+						{
+					'id':id,
+					'uid':uid,
+					'privilege':1
+						},
+						function(update_info){
+					$.messager.alert('提示',update_info.msg);
+				},"json");
+				location.reload();
+				//alert("ok");
+			}else{
+				$.messager.alert("注意：","您的人气不足，无法升级超级用户！");
+			};
+		}
+			
+			if(privilege=="超级用户"||privilege=='管理员'){
+				$.messager.alert("注意：","您暂时无法升至更高等级，请等待系统的开发！");
+			};
+		
+		
+	});
+
+
+	layui.config({
+		base : '/js/util/'
+	}).use(
+			[ 'element', 'laypage', 'jquery', 'menu' ],
+			function() {
+				element = layui.element, laypage = layui.laypage,
+						$ = layui.$, menu = layui.menu;
+	
+				menu.init();
+				
+				
+				
+	//获取用户名并赋值到隐藏域user中
+	$(function() {
+		$.post("/User/getUserName",
+				function(data) {
+					if (data == "") {
+						location.href = "/views/GD/demo.html";
+					} else {
+					 $("#user").html(data);
+					 $.post("/User/getcur",
+							'uname=' + data,
+							function(personinfo) {
+								if (personinfo == "") {
+									$.messager.alert("获取用户信息失败！");
+										} else {
+								//赋值u_id
+								var u_id = personinfo.uid;
+								var email = personinfo.email;
+								var photo = personinfo.u_photo;
+								var phonenum = personinfo.phonenum;
+								var intro = personinfo.cintro;
+								//var privilege = personinfo.privilege;
+								//alert(privilege);
+								$("#u_id").html(u_id);
+								//设置头像
+								$("#per_img").attr('src',"/img/"+ photo);
+											//大标题用户名
+								$("#h1_username").html(data);
+											//alert(u_id);
+								//发布信息用户名
+								//$("#publsiher").html(data);
+								//发布信息发布时间
+								//$("#published_date").html();
+								//获取用户所获得的点赞数
+								$.post("/Great/getusercount",
+										'p_uid='+u_id,
+										function(great_account){
+									$("#great_account").html("人气："+great_account);
+									//把点赞数隐藏到页面中 为升级等级作为判断条件
+									$("#great_account_value").html(great_account);
+								});
+								
+								//获取用户的等级
+								$.post("/User_privilege/find",
+										'uid='+u_id,
+										function(privilege_info){
+									for(var n=0;n<privilege_info.length;n++){
+										var id =  privilege_info[n].id;
+										var privilege = privilege_info[n].privilege;
+									}
+									$("#privilege_id").html(id);
+									//alert(privilege)
+									switch(privilege){
+									case 0:
+										$("#user_privilege").html("普通用户");
+										break;
+									case 1:
+										$("#user_privilege").html("超级用户");
+										break;
+									case 2:
+										$("#user_privilege").html("管理员");
+										break;
+									default:$("#user_privilege").html("普通用户");
+										break;
+									}	
+								});
+
+								//判断邮箱是否为空
+								if (email == null) {
+									$("#email").html("邮箱：暂无信息");
+								} else {
+									$("#email").html("邮箱："+ email);
+								};
+								//判断手机是否为空
+								if (phonenum == null) {
+									$("#phonenum").html("手机：");
+								} else {
+									$("#phonenum").html("手机："+ phonenum);
+								};
+								//判断个性签名是否为空
+								if (intro == null) {
+									$("#intro").html("个性签名：");
+								} else {
+									$("#intro").html("个性签名："+ intro);
+								};
+
+								/*if (privilege == '1') {
+									$("#user_privilege").html("超级会员");
+								} else {
+									$("#user_privilege").html("普通会员");
+								};*/
+								
+											
+		$.post("/Publish/getpublishbyid",
+			"uid="+ u_id, 
+			function(publish_info) {
+			
+					laypage.render({
+						elem : 'demo',
+						count :publish_info.length,
+						limit: 5,
+						layout: ['count', 'prev', 'page', 'next',  'refresh', 'skip'],
+						jump: function(obj){
+					        var arr = []
+					        ,thisData = publish_info.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+							fenye(thisData);
+						}
+					});
+					
+		function fenye(publish_info){
+			var p_date;
+			var topic;
+			var content;
+			var publish_content = "";
+			
+			
+				for (var i = 0; i < publish_info.length; i++) {
+
+
+					 p_date = publish_info[i].pb_date;
+					 topic = publish_info[i].topic;
+					 content = publish_info[i].content;
+					 
+					publish_content += "<div id='my_publish_sub' style='width: 780px;height: 200px;margin-top: 20px;border: solid 1px #CCCCCC;'>"
+										+ "<div id='per_photo_sub'><img id='per_img_sub' src='/img/"+ photo
+										+ "' style='width:70px;height:70px;border-radius:50%;border: solid 1px grey;'>"
+										+ "</div><div><div id='User_name'><h3><a href='#' style='text-decoration: none;color: grey' id='publisher'>"
+										+ data+ "</a></h3></div><div id='date'><a href='#' style='text-decoration: none;color: grey;' id='published_date'>"
+										+ p_date+ "</a></div>"
+										+ "</div><div id='p_topic'><a href='#' style='text-decoration: none;color: #222222;'>"+ topic+ "</a></div><div id='p_content'>"
+										+ content+ "</div></div>";
+				}
+				$("#my_publish").html(publish_content);
+		}
+			
+	});
+
+		}
+		});
+		}
+	});
+	});
+				
+});
+	
+	
+	$("#change_info_a").click(function(){
+		$("#change").dialog({
+			 title: '修改个人信息',
+			    width: 500,
+			    height: 550,
+			    closed: false,
+			    cache: false,
+			    href:"/views/GD/changeinfomation.html" ,
+			    modal: true
+		});
+	});
+	
+	
+		//获取当前用户信息
+	</script>
+</body>
+</html>

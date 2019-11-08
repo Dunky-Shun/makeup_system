@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>推荐</title>
+  <link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="/css/themes/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/chat.css">
+  <link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<!--描述：easyui基础包-->
+<script type="text/javascript" src="/js/jquery.min.js" ></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js" ></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js" ></script>
+  
+<!--加载meta IE兼容文件-->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+<style type="text/css">
+/*.following {
+	border-style: solid; 
+	border-width: 1px;
+	width:150px;
+	}
+}*/
+.img:hover {
+	border: 1px solid black;
+	color: #000;
+}
+.grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 相当于 1fr 1fr 1fr */
+  grid-template-rows: repeat(3, 1fr); /* fr单位可以将容器分为几等份 */
+  grid-gap: 1%; /* grid-column-gap 和 grid-row-gap的简写 */
+  grid-auto-flow: row;
+}
+.grid>div{
+  color: #FFFFFF;
+  font-size: 15px;/*字体大小*/
+  line-height: 2;
+  text-align: center;
+  /*background: linear-gradient(to bottom, #ffffff 0%,#dbdce2 21%,#b8bac6 49%,#dddfe3 80%,#f5f6f6 100%);*/
+}
+.datagrid-row-selected {
+  background: #fff0ff;/*背景色*/
+  color: #000000;/*字体颜色*/
+}
+
+.reimg {
+	margin:0 13%; 
+}
+
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="menu-btn">
+      <div class="menu"></div>
+    </div>
+    <h1 class="logo">
+      <a href="choose.html">
+        <span>MYBLOG</span>
+        <img src="/img/logo.png">
+      </a>
+    </h1>
+    <div class="nav">
+      <a href="youpi.html">首页</a>
+      <a href="recommend.html"  class="active">在线交流</a>
+      <a href="leacots.html">发帖</a>
+      <a href="person.html">个人中心</a>
+      <!-- 搜索功能 -->
+			<input class="easyui-searchbox" style="width: 200px; height: 40px" "/>
+    </div>
+    <ul class="layui-nav header-down-nav">
+      <li class="layui-nav-item"><a href="youpi.html">文章</a></li>
+      <li class="layui-nav-item"><a href="recommend.html"  class="active">在线交流</a></li>
+      <li class="layui-nav-item"><a href="leacots.html">发帖</a></li>
+      <li class="layui-nav-item"><a href="person.html">个人中心</a></li>
+    </ul>
+   <span style="float:right; padding-right:20px;" class="welcome-text">欢迎  
+			<a id="user"></a> 
+			<a href="/User/logout" id="loginOut">安全退出</a>
+		</span>
+  </div>
+<div class="reimg">
+	<img src="/img/makeup_re1.jpg" style="width:1045px; height:216px">
+</div>
+<div id="mb_menu" class="mb_menu" style="positive:relative;margin-top: 216px;">
+		<a href="/views/GD/youpi.html" data-speed="1000">油皮专区</a> 
+		<a href="/views/GD/ganxing.html" data-speed="1000" data-easing="easeInExpo">干皮专区</a> 
+		<a href="/views/GD/hunhe.html" data-speed="1000" data-easing="easeOutBack">混合性</a> 
+		<a href="/views/GD/mingan.html" data-speed="1000" data-easing="easeInExpo">敏感肌</a> 
+		<a href="/views/GD/tuijian.html" data-speed="1000"  data-easing="easeInExpo">专家解惑</a>
+</div>
+
+<div id="container" style="max-width:100%;min-height:800px;">
+		<p class="p_info" style="margin:0 auto;height:15px;font-size:14px;color:black;">
+	     	<span style="float:right;"><a id="show_online" href="javascript:void(0);" class="btn btn-mini btn-danger"><b style="font-size:16px;">在线交流</b></a></span> 
+		</p>
+	 </div>
+
+	
+      
+      <script>
+      //获取用户名 判断是否登录
+      $(function(){
+    	  $.post("/User/getUserName",
+  				function(data){
+  			if(data==""){
+  				location.href = "/views/GD/demo.html";
+  			}else{
+  				$("#user").html(data);
+  			}
+  		});
+      });
+      
+   
+      </script>
+  
+  <script type="text/html" id="laytplCont">
+    <div class="cont">
+      <div class="img">
+        <img src="{{d.avatar}}" alt="">
+      </div>
+      <div class="text">
+        <p class="tit"><span class="name">{{d.name}}</span><span class="data">2018/06/06</span></p>
+        <p class="ct">{{d.cont}}</p>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/javascript" src="/layui/layui.js"></script>
+  <script type="text/javascript">
+	
+	$(".q_face .bq").click(function(){
+		$(".bqk").toggle(500);
+		
+	});
+
+	$(".uli").find("li").click(function(){
+		var img=$(this).find("img").clone();
+		$("#msg").append(img);
+	});
+	
+	$(".bqk").mouseleave(function(){
+		$(".bqk").hide(500);
+	});
+	
+	</script>
+	
+	
+	<script>
+		
+		var path = location.host + "${path}";
+		
+		var uid = "${empty user? -1 : user.id}";
+
+		if(uid == -1){
+			parent.location.href="<%=basePath2%>";
+		}
+		
+		var from = uid;
+		var fromName = '${user.userName}';
+		var to = uid == 1 ? 2:1;
+
+		var isConnection = false;
+		var websocket;
+		
+		if ('WebSocket' in window) {
+			websocket = new WebSocket("ws://" +path+ "/ws?uid=" +uid);
+		} else if ('MozWebSocket' in window) {
+			websocket = new MozWebSocket("ws://" +path+ "/ws" +uid);
+		} else {
+			alert("JsWebSocket");
+			websocket = new SockJS(location.protocol+ "//" +path+ "/ws/sockjs");
+		}
+		
+		websocket.onopen = function(event) {
+			isConnection = true;
+			console.log("WebSocket:已连接");
+			console.log(event);
+		};
+		
+		websocket.onmessage = function(event) {
+			var data=JSON.parse(event.data);
+			console.log("WebSocket:收到一条消息",data);
+			if(data.from == -2) {
+				var onlineSize = data.onlineSize;
+				var msg = data.text;
+				
+				onMsgBroadcast(onlineSize, msg);
+			} else {
+				window.parent.sessonStartTime = new Date().getTime();
+				var textCss = data.from == -1 ? "all_chat_word" : "chat_word";
+				var msgContent = '<div class="from"><p>' +data.fromName+ '&nbsp;' +data.date+ '</p><div class="'+textCss+'">' +data.text+ '</div></div>';
+				$("#content").append(msgContent);
+				scrollToBottom();
+				
+				//把聊天记录保存到本地cookie
+				common.saveCookie("${user.userName}", $("#content").html(), 7);
+			}
+		};		
+		
+		websocket.onerror = function(event) {
+			isConnection = false;
+			console.log("WebSocket:发生错误 ");
+			console.log(event);
+			websocket = null;
+			var html = '<div style="width:150px;margin:200px auto;height:25px;color:red;">连接服务器失败...</div>';
+			document.body.innerHTML = html;
+		};
+		
+		websocket.onclose = function(event) {
+			isConnection = false;
+			console.log("WebSocket:已关闭");
+			console.log(event);
+			websocket = null;
+		}
+		
+		
+		//手动关闭websocket
+		function webSocketClose(){
+			//alert("close");
+			if(websocket != null)
+				websocket.close();
+		}
+		
+		//群聊
+		function groupchat(){
+			$.ajax({
+				url:'${path}/message/groupchat.html',
+				type:"post",
+				data:{text : $("#msg").html(), id: "${user.id}", userName: "${user.userName}"},
+				dataType:"json",
+				success:function(data){
+					//alert("发送成功");
+				}
+			});
+		}
+		
+		function sendMsg(){
+			if(websocket != null && isConnection) {
+				var v = $("#msg").html();
+				if(v == ""){
+					
+					return;
+				}else{
+					window.parent.sessionStartTime = new Date().getTime();
+					var data={};
+					data["from"]=from;
+					data["fromName"]=fromName;
+					data["to"]=to;
+					data["text"]=v;
+					//websocket.send(JSON.stringify(data));
+					groupchat();
+					var msgContent = '<div class="me"><p>我&nbsp;' +new Date().Format("yyyy-MM-dd hh:mm:ss")+ '</p><div class="chat_word">' +data.text+ '</div></div>'
+					$("#msg").html("");
+					$("#content").append(msgContent);
+					scrollToBottom();
+				}
+				
+				//把聊天记录保存到本地cookie
+				common.saveCookie("${user.userName}", $("#content").html(), 7);
+			} else {
+				alert("你已掉线，请重新连接...");
+			}
+				
+		}
+			
+		function scrollToBottom(){
+			var div = document.getElementById('content');
+			div.scrollTop = div.scrollHeight;
+		}
+		
+		Date.prototype.Format = function (fmt) { //author: meizz 
+		    var o = {
+		        "M+": this.getMonth() + 1, //月份 
+		        "d+": this.getDate(), //日 
+		        "h+": this.getHours(), //小时 
+		        "m+": this.getMinutes(), //分 
+		        "s+": this.getSeconds(), //秒 
+		        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+		        "S": this.getMilliseconds() //毫秒 
+		    };
+		    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+		    for (var k in o)
+		    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		    
+		    return fmt;
+		}
+		
+		// 接收广播消息
+		function onMsgBroadcast(onlineSize, msg) {
+			$("#num").html(onlineSize);
+			$("#come_out").html(msg);
+			Marquee($("#msg_div").html(), false);
+		}
+
+		// 群聊接收消息 
+		function onMsgChatgroup(onlineSize, msg) {
+			$("#num").html(onlineSize);
+			$("#come_out").append(msg);
+		}
+		
+		// 消息框头滚动
+		function Marquee(text, loop){
+			//var come_out = '<span id="come_out" style="height:25px;line-height:25px;float:right;border:1px solid green;">' +text+ '</span>';
+			ScrollText($('#msg_div'), 25, 400, text, 'left', 1, 15, loop);//滚动字幕
+		} 
+		
+		function keypress(event) {
+			alert($("#msg").html());
+		}
+		
+		function keyup(event) {
+			if((event.keyCode || event.which) == 13){ // e.keyCode IE e.which Firefox
+				$("#msg").html("");
+			}
+		}
+		
+		//支持Enter发送
+		document.onkeydown = function send(e){
+			if(!e) e = window.event;
+			if((e.keyCode || e.which) == 13){ // e.keyCode IE e.which Firefox
+				sendMsg();
+			}
+		}
+		
+		// 清除
+		function clearAll(){
+			$("#content").empty();
+		}
+						
+		$(function (){
+			var cookieData = common.getCookie("${user.userName}");
+			console.log("cookieData: " +cookieData);
+			if(cookieData != null && cookieData != ""){
+				$("#content").html(cookieData);
+			} else {
+				$("#content").html("");
+			}
+			
+			scrollToBottom();
+			
+			//common.delCookie("${user.userName}")
+			
+			//$("#iframe_window_mini_div").load("${path}/data/webCompany.html");
+		});
+		
+		
+	</script>
+	
+	
+	<script type="text/javascript">
+	
+		var common = {};
+		common.saveCookie = function(cookieKey, cookieValue, expiresNum) {
+	        var options = {
+	            'path': '/',
+	            'domain': '', //common.saveCookie
+	            'secure': false,//关闭https传输cookie
+	            'raw': true,//关闭cookie的自动编码功能
+	            'expires': expiresNum || 30 //cookie的过期时间，如没有传值默认30天过期
+	        };
+	
+	        $.cookie(escape(cookieKey), cookieValue, options);
+	    }
+	
+	    common.getCookie = function(cookieKey) {
+	        return $.cookie(unescape(cookieKey));
+	    }
+	
+	    common.getToken = function() {
+	        return $.cookie('token');
+	    }
+	
+	    common.delCookie = function(cookieKey) {
+	        $.cookie(cookieKey, '', {
+	            'path': '/',
+	            'expires': -1
+	        });
+	    }
+  </script>
+</body>
+</html>

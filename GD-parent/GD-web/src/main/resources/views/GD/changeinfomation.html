@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/main.css">
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<!--描述：easyui基础包-->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+	<div style="text-align: center; margin-top: 40px">
+		<form method="post" action="/Makeup/upload" enctype="multipart/form-data" >
+			<input id="change_info_name" class="easyui-textbox" disabled="true"></br>
+			
+			</br> <input class="easyui-filebox" id="c_u_photo"
+				data-options="buttonText:'选择头像', accept:'image/jpeg,image/jpeg,image/png' "></br>
+			</br> <input class="easyui-textbox" prompt="个性标签" id="c_Ctag"></br>
+			</br>
+			<div>
+				<div style="margin-left: -130px; font-size: 13px">性别：</div>
+				</br> <input class="easyui-radiobutton" name="gender" value="男" label="男">
+			</div>
+			<div>
+				<input class="easyui-radiobutton" name="gender" value="女" label="女">
+			</div>
+			<div>
+				<input class="easyui-radiobutton" name="gender" value="保密"
+					label="保密"> </br>
+				</br>
+
+			</div>
+			<input class="easyui-textbox" prompt="手机号码" id="c_phonenum" data-options="validType:'phoneRex'"> </br>
+			</br> <input class="easyui-textbox" prompt="邮箱" id="c_email" data-options="validType:'email'"> </br>
+			</br> <input class="easyui-textbox" prompt="等级" id="c_privilege" disabled="true"> </br>
+			</br>
+			<div style="margin-top: 10px">
+				<input class="easyui-linkbutton" id="c_save" value="保存" style="width: 100px"> 
+				<input class="easyui-linkbutton" value="取消" id="c_cancle"style="width: 100px">
+			</div>
+		</form>
+	</div>
+
+	<script>
+	//获取用户名
+			var change_name = $("#user").html();
+		 $("#change_info_name").val(change_name);
+	
+	  $.extend($.fn.validatebox.defaults.rules, {
+		  phoneRex: {
+		    validator: function(value){
+		    var rex=/^1[3-8]+\d{9}$/;
+		    //var rex=/^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+		    //区号：前面一个0，后面跟2-3位数字 ： 0\d{2,3}
+		    //电话号码：7-8位数字： \d{7,8
+		    //分机号：一般都是3位数字： \d{3,}
+		     //这样连接起来就是验证电话的正则表达式了：/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/		 
+		    var rex2=/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+		    if(rex.test(value)||rex2.test(value))
+		    {
+		      // alert('t'+value);
+		      return true;
+		    }else
+		    {
+		     //alert('false '+value);
+		       return false;
+		    }
+		      
+		    },
+		    message: '请输入正确的手机号码格式'
+		  }
+		});
+
+	  //保存按钮的定义
+	$("#c_save").click(function(){
+		//获取父页面的登录用户名
+		var username = $("#user").html();		
+		//获取父页面的登录用户Id
+		var u_id = $("#u_id").html(); 
+		
+		var tag = $("#c_Ctag").val();
+		var gender = $('input:radio:checked').val();
+		var phonenum = $("#c_phonenum").val();
+		var email = $("#c_email").val();
+		var p_fake_url = $("#c_u_photo").filebox('getValue');
+		var p_url = p_fake_url.split("\\");
+		
+		//alert(p_url[2]);
+		$.post("/User/updateinfo",
+				{
+			'uid': u_id,
+			'gender': gender,
+			'Ctag': tag,
+			'email': email,
+			'phonenum': phonenum,
+			'u_photo': p_url[2]
+				},function(updateinfo){
+					$.messager.alert('提示',updateinfo.msg);
+					},"json");
+		
+	});
+	
+	  //取消按钮的功能定义
+	  $("#c_cancle").click(function(){
+		  $("#change").dialog({
+			  closed: true
+		  });
+	  });
+	</script>
+</body>
+</html>

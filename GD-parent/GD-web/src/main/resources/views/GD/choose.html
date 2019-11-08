@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+<meta charset="UTF-8">
+<title>选择肤质</title>
+
+
+
+<link rel="stylesheet" href="/css/stylefeng.css">
+<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/main.css">
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<link href="/css/themes/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link rel="stylesheet" href="/css/themes/reset.css">
+<script src="/js/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.1.1.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js"></script>
+<style>
+.banner{
+	
+	position:absolute;
+	z-index:-1;
+}
+</style>
+</head> 	
+
+<body>
+	  <div class="banner">
+		<div class="cont w1000">
+			<div class="title">
+				<h3>
+					TO<br />MAKE
+				</h3>
+				<h4>YOU MORE BEAUTIFUL</h4>
+			</div>
+		</div>
+	</div>
+	
+		<h1 class="logo">
+			<a href="choose.html"> 
+			<img src="/img/logo.png">
+			</a>
+		</h1>
+		<div style="margin-left:32%">
+			<form>
+			<!-- 搜索功能  -->
+				<input id= "_search"class='easyui-textbox' style='height:40px;width:380px'>
+				<input id="button_search"class='easyui-linkbutton' value='查询' style='margin-left:5%;width:50px;height:40px'>
+		</form>
+		</div>
+		
+<div class="container">
+	<div class="box">
+		<img src="/img/annie.jpg" id="goto1">
+		<span>油性</span>
+	</div>
+	<div class="box">
+		<img src="/img/Login.jpg" id="goto2">
+		<span>干性</span>
+	</div>
+	<div class="box">
+		<img src="/img/photo.jpg" id="goto3">
+		<span>混合性</span>
+	</div>
+	<div class="box">
+		<img src="/img/tip.jpg" id="goto4">
+		<span>敏感性</span>
+	</div>
+	<div class="box">
+		<img src="/img/annie2.jpg" id="goto5">
+		<span>超级信息</span>
+	</div>
+</div>
+
+<script>
+
+//跳转到响应页面
+	$("#goto1").click(function(){
+		location.href="/views/GD/youpi.html";
+	});
+	
+	
+	$("#goto2").click(function(){
+		location.href="/views/GD/ganxing.html";
+	});
+	
+	
+	$("#goto3").click(function(){
+		location.href="/views/GD/hunhe.html";
+	});
+	
+	
+	$("#goto4").click(function(){
+		location.href="/views/GD/mingan.html";
+	});
+	
+	$("#goto5").click(function(){
+		location.href="/views/GD/tuijian.html";
+	});
+
+
+	
+	//搜索功能
+	$("#button_search").click(function(){
+		var content = $("#_search").textbox('getValue');
+		$(".makeup").attr("style","display:none");
+		location.href='/views/GD/search.html?search='+content;
+		//alert(content);
+	});
+	
+</script>
+
+
+
+</body>
+
+</html>
+	

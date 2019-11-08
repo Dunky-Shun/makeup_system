@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>举报页面</title>
+<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/main.css">
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<!--描述：easyui基础包-->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div style='width:350px;'>
+<form style='margin-left:50px;font-size:18px'>
+	<ul>
+		<li style='margin-top:15px'><input id='normal' type="radio" name="reprot_reason" class="easyui-radiobutton"
+					value="1">该信息存在色情/违法等不良信息 </li>
+		<li style='margin-top:15px'><input id='normal' type="radio" name="reprot_reason" class="easyui-radiobutton"
+					value="2">该信息存在欺诈骗钱的行为 </li>
+		<li style='margin-top:15px'><input  type="radio" name="reprot_reason" class="easyui-radiobutton"
+					value="3">该信息侵犯未成年人权益 </li>
+		<li style='margin-top:15px'><input type="radio" name="reprot_reason" class="easyui-radiobutton"
+					value="4" id='other'>该信息存在其他违规行为 
+					</li>
+		<li style='margin-top:12px;margin-left:20px'>
+		<input id="other_content"  class='easyui-textbox' style='width:230px;height:50px;' >
+		</li>
+	</ul>
+	<div style='margin-left:50px;margin-top:20px'>
+		<input id="report_comfirm" style='width:150px;height:30px' type="button" class = 'easyui-linkbutton' 
+		value='提交'>
+	</div>
+</form>
+</div>
+
+
+<script>
+//提交按钮的功能定义
+	$("#report_comfirm").click(function(){
+		//获取选取的内容
+		var choose = $("input[type='radio']:checked").val();
+		var report_content;
+		/*
+		if(choose==null){
+			alert("请选择举报 的理由！");
+		}
+		
+		if(choose=='4'){
+			report_content = $("#other_content").val();
+			if(report_content==""){
+				alert("请输入举报信息");
+			}
+		}
+		
+ 		if(choose=='1'){
+			report_content ="该信息存在色情/违法等不良信息 ";
+			//alert(report_content);
+		}
+		if(choose=='2'){
+			report_content ="该信息存在欺诈骗钱的行为 ";
+			//alert(report_content);
+		}
+ 		if(choose=='3'){
+			report_content ="该信息侵犯未成年人权益 ";
+			//alert(report_content);
+		}*/
+		switch(choose){
+		case '1' :
+			report_content ="该信息存在色情/违法等不良信息 ";  
+			break;
+		case '2' :
+			report_content ="该信息存在欺诈骗钱的行为 "; 
+			break;
+		case '3' :
+			report_content ="该信息侵犯未成年人权益 ";  
+			break;
+		case '4' :
+			report_content = $("#other_content").val();
+			if(report_content==""){
+				alert("请输入举报信息");
+			}; 
+			break;
+		case null :
+			alert("请选择举报 的理由！");  
+			break;
+		default:
+			alert("请选择举报 的理由！"); 
+		break;
+		}
+ 		//当前登录用户、举报的人
+ 		var red_id = $("#user_id").html();
+ 		
+ 		//获取发布文章人的id、被举报人id
+ 		var uid = $("#p_uid").html();
+ 		//信息的id
+ 		var pb_id = $("#p_id").html();
+ 		//alert(red_id);
+ 		if(red_id==uid){
+ 			$.messager.alert('注意',"不可以举报自己发布的信息哦~")
+ 		}else{
+ 			
+ 			
+ 			$.post("/Report/report",
+ 					{
+		 				'uid':uid,
+		 				'red_id':red_id,
+		 				'r_reason':report_content,
+		 				'pb_id':pb_id,
+	 				},
+ 	 				function(refeeddata){
+ 	 			$.messager.alert('注意', refeeddata.msg);0
+ 	 		});
+ 		}
+ 		$("#report_html").dialog('destroy');
+
+ 		
+	});
+</script>
+</body>
+</html>

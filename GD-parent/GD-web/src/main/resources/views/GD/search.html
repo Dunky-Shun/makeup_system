@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>首页</title>
+<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/main.css">
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<!--描述：easyui基础包-->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js"></script>
+<!--加载meta IE兼容文件-->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+<style type="text/css">
+.bimg:hover {
+	border: 1px solid black;
+	color: #000;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr); /* 相当于 1fr 1fr 1fr */
+	/*grid-template-rows: repeat(3, 1fr); /* fr单位可以将容器分为几等份 */
+	grid-gap: 1%; /* grid-column-gap 和 grid-row-gap的简写 */
+	grid-auto-flow: row;
+}
+
+.grid>div {
+	color: #FFFFFF;
+	font-size: 15px; /*字体大小*/
+	line-height: 2;
+	text-align: center;
+	/*background: linear-gradient(to bottom, #ffffff 0%,#dbdce2 21%,#b8bac6 49%,#dddfe3 80%,#f5f6f6 100%);*/
+}
+
+.img {
+	width: 300px;
+	height: 300px;
+}
+</style>
+</head>
+<body>
+	<div class="header">
+		<div class="menu-btn">
+			<div class="menu"></div>
+		</div>
+		<h1 class="logo">
+			<a href="index.html"> <span>Beautiful</span> <img
+				src="/img/logo.png">
+			</a>
+		</h1>
+		<div class="nav">
+		<form>
+			<a href="youpi.html" class="active">首页</a> <a href="recommend.html">在线交流</a>
+			<a href="leacots.html">发帖</a> <a href="person.html">个人中心</a>
+			
+			<!-- 搜索功能  <input class="easyui-searchbox" style="width: 200px; height: 40px" id='_search'/> -->
+				<input id= "_search"class='easyui-textbox' style='height:40px'>
+				<input id="button_search"class='easyui-linkbutton' value='查询' style='width:50px;height:40px'>
+			</form>
+			
+			
+		</div>
+		<ul class="layui-nav header-down-nav">
+			<li class="layui-nav-item"><a href="youpi.html" class="active">首页</a></li>
+			<li class="layui-nav-item"><a href="whisper.html">在线交流</a></li>
+			<li class="layui-nav-item"><a href="leacots.html">留言</a></li>
+			<li class="layui-nav-item"><a href="person.html">个人中心</a></li>
+			<li class="layui-nav-item"><input class="easyui-searchbox"
+				style="width: 200px; height: 40px" "/></li>
+		</ul>
+
+		<span style="float: right; padding-right: 20px;" class="welcome-text">欢迎
+			<a id="user"></a>
+			
+			<a href="/User/logout" id="loginOut">安全退出</a>
+		</span>
+	</div>
+
+	<div class="banner">
+		<div class="cont w1000">
+			<div class="title">
+				<h3>为您搜索</h3>
+				<h4>YOU ARE BEAUTIFUL</h4>
+			</div>
+		</div>
+		<img src="/img/WPS.jpg" heigt="150px" width="1600px" />
+	</div>
+
+	<div class="content">
+
+		<div class="cont w1000">
+			<div id="details"></div>
+			<div class="makeup">
+				<!-- 一行三列效果  -->
+				<div class="girdsquare-inner grid"></div>
+			</div>
+		</div>
+	</div>
+	<div id="mb_menu" class="mb_menu" style="margin-top: 590px;">
+		<a href="/views/GD/youpi.html" data-speed="1000">油皮专区</a> 
+		<a href="/views/GD/ganxing.html" data-speed="1000" data-easing="easeInExpo">干皮专区</a> 
+		<a href="/views/GD/hunhe.html" data-speed="1000" data-easing="easeOutBack">混合性</a> 
+		<a href="/views/GD/mingan.html" data-speed="1000" data-easing="easeInExpo">敏感肌</a> 
+		<a href="/views/GD/tuijian.html" data-speed="1000"  data-easing="easeInExpo">专家解惑</a>
+	</div>
+
+
+	<div class="footer-wrap">
+		<div id="demo" style="text-align: center;"></div>
+	</div>
+
+
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript">
+	var content;
+	//搜索按钮功能
+	$("#button_search").click(function(){
+		var content = $("#_search").textbox('getValue');
+		$(".makeup").attr("style","display:none");
+		location.href='/views/GD/search.html?search='+content;
+		//alert(content);
+	});
+	
+	//化妆品详情
+	function details(p_id){
+		$("#p_id").html(p_id);
+		$("#details").dialog({
+			 title: '关于化妆品',
+			    width: 500,
+			    height: 350,
+			    closed: false,
+			    cache: false,
+			   // queryParams:{submitURL:p_id},
+			    href: 'makeup_details.html?pb_id='+p_id,
+			    modal: true
+		});
+	};
+	
+	//获取当前登录的用户名
+	$(function(){
+		$.post("/User/getUserName",
+				function(data){
+			if(data==""){
+				location.href = "/views/GD/demo.html";
+			}else{
+				$("#user").html(data);
+			}
+		});
+	});
+
+	//分页
+	
+	layui.config({
+		base : '/js/util/'
+	}).use(
+			[ 'element', 'laypage', 'jquery', 'menu' ],
+			function() {
+				element = layui.element, laypage = layui.laypage,
+						$ = layui.$, menu = layui.menu;
+				menu.init();
+
+				$(function(){
+					$.getUrlParm = function(url){
+						var reg = new RegExp("(^|&)search=([^&]*)(&|$)");
+						var r = window.location.search.substr(1).match(reg);
+						//decodeURI作用是对参数进行编码  防止中文乱码
+						if(r!=null) return decodeURI(r[2]);
+						return '';
+					}
+				});
+				content =$.getUrlParm('search');
+				var content_search = $("#_search").textbox('getValue');
+
+				
+				switch(content){
+				case "油皮型": content ='1';
+						break;
+				case "干皮型": content ='2' ;
+						break;
+				case "混合型": content ='3' ;
+						break;
+				case "敏感型": content ='4' ;
+						break;
+				case "其他": content ='5' ;
+						break;
+				default:content = content;
+						break;
+				};
+				//获取所有油皮信息
+						$.post("/Publish/getsearch",
+								{
+							'category':content,
+							'topic':content,
+							'content':content
+								},//获取油皮的信息
+								function(data){
+							laypage.render({
+								elem : 'demo',
+								count :data.length,
+								limit: 9,
+								layout: ['count', 'prev', 'page', 'next',  'refresh', 'skip'],
+								jump: function(obj){
+							        var arr = []
+							        ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+									depart(thisData);
+								}
+							});
+							function depart(data){
+								var p_url;
+								var p_name;
+								var p_id;
+								var html = "";
+								for(var i=0;i<data.length;i++){
+										
+									p_id = data[i].pb_id;
+									date = data[i].pb_date;
+									topic = data[i].topic;
+									cotent = data[i].content;
+									pb_type= data[i].pb_type;
+									url = data[i].p_url; 
+									uid = data[i].uid;
+									
+									html += "<div class='bimg'><a style='display:none;' id='p_id'></a><img src='/img/" + url + "' class='img' title="+ topic+" alt="+topic +"></br>"
+										+ "<a href='Javascript:details("+p_id+")'>"+ topic +"</a></div>";
+									$(".girdsquare-inner").html(html);
+								}
+							}
+						},"json");
+			}
+	);
+	
+	</script>
+</body>
+</html>

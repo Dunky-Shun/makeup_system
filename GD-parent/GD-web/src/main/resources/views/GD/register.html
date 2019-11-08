@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/css/themes/main.css">
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<style>
+body {
+	background-color: #000000;
+	background: url(/img/tip.jpg);
+	background-size: cover;
+}
+
+.title {
+	/*width: 200px;*/
+	position: relative;
+	margin-left: 50%;
+	margin-top: 120px;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<div class="title">
+
+		<h1>欢迎注册账号</h1>
+		</br>
+		</br>
+		<form>
+			<input id="username" class="easyui-textbox"
+				data-options="iconCls:'icon-man'" prompt="Username"
+				style="width: 300px; height: 50px"></br>
+				
+			</br> <input id="password" class="easyui-passwordbox" prompt="Password"
+				iconWidth="28" style="width: 300px; height: 50px"> </br>
+				
+			</br> <input id="repassword" class="easyui-passwordbox"
+				prompt="Enter Password Again" iconWidth="28"
+				style="width: 300px; height: 50px"> </br>
+				
+				</br> <input id="email" class="easyui-textbox"
+				data-options="iconCls:'icon-email'"
+				prompt="E-mail" style="width: 300px; height: 50px" 
+				></br>
+				
+			</br> <input id="submit" class="easyui-linkbutton" value="马上注册"
+				style="height: 40px">
+
+		</form>
+	</div>
+
+
+	<script>
+
+	
+	
+	
+		$.post("/User/find", function(data) {
+			$("#submit").click(function() {
+				
+				var username = $("#username").val();
+				var password = $("#password").val();
+				var repassword = $("#repassword").val();
+				var email = $("#email").val();
+				//判断用户名是否存在
+				if (!/^[A-Za-z0-9]+$/.test(username)) {
+					$.messager.alert('注意', '账号只能为英文和数字');
+				} else {
+					for (var i = 0; i < data.length; i++) {
+						u_name = data[i].uname;
+						if (username == u_name) {
+							$.messager.alert('注意', '该用户名已存在');
+							return;
+						}
+					}
+
+					if(password.length<6){
+						$.messager.alert('注意','密码的长度不能小于6位');
+					}else if (password == "" || repassword == "") {
+						$.messager.alert('注意', '密码或重复密码不能为空');
+					} else if (repassword != password) {
+						$.messager.alert('注意', '两次密码不匹配，请检查后再次输入');
+					} else if(!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)){
+						$.messager.alert('注意','邮箱格式不正确，请重新输入！');
+					}else{
+						$.post("/User/addUsers", 
+						{
+							'uname' : username,
+							'password' : password,
+							'email' : email
+						}, function(addinfo) {
+							//设置权限
+						/*		$.post("/User/find",
+									'uname='+username,
+									function(user_inifo){
+								for(var u=0;u<user_info.length;u++){
+									var uid = user_info[u].uid;
+									alert(uid);								}
+								
+							});
+							$.post("/User_privilege/insert",
+									'uid='+uid,
+									'privilege=0');*/
+							//$.messager.alert('注意', '注册成功');
+						
+							$.messager.alert("注意",addinfo.msg);
+							location.href = "/views/GD/demo.html";
+						});
+
+					}
+				}
+
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/themes/bootstrap/easyui.css" />
+<link rel="stylesheet" href="/css/themes/icon.css" />
+<!--描述：easyui基础包-->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<!--描述：中文包-->
+<script type="text/javascript" src="/js/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+
+	<div
+		style="display: flex; justify-content: center; align-items: center; margin-top: 50px">
+		<form id="publish_content" method="post" action="/Makeup/upload" enctype="multipart/form-data" target="iframe1">
+			主题：<input type="text" class="easyui-textbox" id="topic"></br></br> 
+			内容：<input type="text" class="easyui-textbox" id="content"></br></br> 
+	    图片：	<input class="easyui-filebox" name="file" id="img"
+				data-options="buttonText:'选择图片', accept:'image/jpeg,image/jpeg,image/png' "></br></br>
+				<!--  --><iframe name="iframe1" style="display:none" >555</iframe>
+			<div style="margin-bottom: 20px">
+				帖子类型： <input type="radio" name="type" class="easyui-radiobutton"
+					value="科普贴">科普贴 <input type="radio" name="type"
+					class="easyui-radiobutton" value="求知帖">求知帖</br>
+			</div>
+			
+			 <input type="submit" id="submit" value="发布" class="easyui-linkbutton"
+				style="width: 150px; height: 30px; margin-left: 40px; margin-top: 20px">
+	</form>
+	</div>
+	<script>
+
+	
+	
+	//alert(nowTime);
+	//定义发布按钮的功能
+		$("#submit").click(function(){
+
+			//获取当前时间
+			
+			Date.prototype.Format = function (fmt) {  
+			    var o = {  
+			        "M+": this.getMonth() + 1, //月份   
+			        "d+": this.getDate(), //日   
+			        "H+": this.getHours(), //小时   
+			        "m+": this.getMinutes(), //分   
+			        "s+": this.getSeconds(), //秒   
+			        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+			        "S": this.getMilliseconds() //毫秒   
+			    };  
+			    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));  
+			    for (var k in o)  
+			    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));  
+			    return fmt;  
+			};
+			
+			var uname;
+			var nowTime=new Date().Format("yyyy-MM-dd HH:mm:ss"); 
+			var topic = $("#topic").val();
+			var content = $("#content").val();
+			//var p_url = $("#").val();
+			var p_type = $('input:radio[name="type"]:checked').val();
+			var u_id = $("#user_id").html();
+			var u_name = $("#user").html();
+			var p_fake_url = $("#img").filebox('getValue');
+			var p_url = p_fake_url.split("\\");
+			var xx = p_url[2].split(".");
+			alert(xx[0]);
+			$.post("/User/getcur",
+					'uname='+u_name,
+					//根据用户名获取该用户的相关信息
+					function(data){
+				//alert(data.uid);
+				$.post("/Publish/addtie",
+						{
+						'uid': data.uid,
+						//'uid': u_name,
+						'pb_date': nowTime,
+						'content': content,
+						'pb_type': p_type,
+						'topic': topic,
+						'p_url': p_url[2]
+						},function(addinfo) {
+							$.messager.alert('注意', addinfo.msg);
+						},"json");
+					//dialog关闭
+					$("#dd").dialog("close");
+			});
+			
+		});
+		
+	</script>
+</body>
+</html>

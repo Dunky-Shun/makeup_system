@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/css/themes/demo.css">
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<style>
+
+.image{
+	float:left;
+	width:120px;
+}
+.info{
+float:left;
+margin-top: 10px;
+}	
+
+</style>
+</head>
+<body>
+
+<div id="m_details"></div>
+	
+<div id="report_html"></div>
+	<!-- 把获取到的发布人id储存到该标签 -->
+<a id="p-uid" style='display:none'></a>
+<!-- 一隐藏的user_id <a>标签  -->
+<a id="user_id" style="display:none"></a>
+
+	<!-- 把获取到的文章点赞数印泥保存在这 -->
+	<a id='greatcount' style='display:none'></a>
+	
+	
+<script type="text/javascript">
+var p_url;
+var p_name;
+var p_tag;
+var p_category; 
+//p_id信息的id（文章的id）
+var p_id = $("#p_id").html();
+	   //获取登录用户名-->点赞人姓名-->	
+    var username = $("#user").html();//当前登录用户（点赞人、举报人）
+   $(function(){
+	   $.post("/User/getcur",
+	    		'uname='+username,
+	    		function(userinfo){
+	    	//获取当前人ID
+	    		var u_id = userinfo.uid;
+	    	//把获取到的id赋值给页面的<a id='uiser_id'>
+	    	 $("#user_id").html(u_id);
+	    	 //alert(u_id);
+	    	});
+   });
+    
+    
+$(function(){
+	   //获取同一篇文章的点赞数并且赋值到<a id='greatcount'>
+    $.post("/Great/getcount",
+    		'pb_id='+p_id,
+    		function(count_data){
+    	//alert(data);
+    	$("#greatcount").html(count_data);
+    });
+	});
+
+    //定义举报按钮功能
+    function report(){
+    	$("#report_html").dialog({
+    		title: '举报',
+    		width: 400,
+    		height: 370,
+    		href: 'report.html',
+    		modal: true
+    	});
+	    };
+    
+    
+    
+    //定义点赞的功能
+    function great(){
+    	//获取点赞人ID
+    	var u_id = $("#user_id").html();
+    	var p_uid = $("#p_uid").html();
+    	alert("获取点赞人id"+u_id);
+    	//判断是否已经点赞
+    	$.post("/Great/checkgreat",
+    			{
+    		'uid':u_id,
+			'pb_id':p_id
+    			},
+    			function(check_data){
+    				//alert(u_id+p_id);
+    				//alert(check_data);
+    				//data不为空时取消点赞；为空时进行点赞
+    				
+    		if(check_data!=''){
+    			//alert("not null");
+    			//取消点赞
+    			
+    			$.post("/Great/cancelgreat",
+    	    			{
+    	    		//点赞人  当前用户
+    	    		'uid': u_id,
+    	    		//发布用户id
+    	    		'p_uid':p_uid,
+    	    		//文章id
+    	    		'pb_id':p_id
+    	    			},
+    	    			function(cancle_data){
+    	    				$.messager.alert('Tip',cancle_data.msg);
+    	    			});
+    			$('#details').dialog('refresh', 'makeup_details.html?pb_id='+p_id);
+    		}else{
+    			//alert(" null");
+    			//alert("null");
+    			//点赞
+    			$.post("/Great/great",
+    	    			{
+    	    		//点赞人  当前用户u_uid
+    	    		'uid': u_id,
+    	    		//发布用户id
+    	    		'p_uid':p_uid,
+    	    		//文章id
+    	    		'pb_id':p_id
+    	    			},
+    	    			function(great_data){
+    	    				$.messager.alert('Tip',great_data.msg);
+    	    			});
+    			$('#details').dialog('refresh', 'makeup_details.html?pb_id='+p_id);
+    		}
+    	});
+    };
+    
+    
+    //点击用户名跳转到相应的个人主页
+    function skip(){
+    	$(function(){
+    		$('#skip').attr('target','_blank');
+    	});
+    	//p_uid 发表人id
+    	//uid当前登录用户id
+    	var p_uid = $("#p_uid").html();
+    	var u_id = $("#user_id").html();
+    	if(p_uid == u_id){
+    		window.open('/views/GD/person.html');
+    	}else{
+    		window.open('/views/GD/person2.html?uid='+p_uid);
+    		
+    	}
+    };
+
+$(function(){
+	 $.post("/Publish/getpublished",
+	    		"pb_id="+p_id,
+	    		//"pb_id=71",
+				function(publish_data){
+			
+			for(var i=0;i<publish_data.length;i++){
+				//p_ url 图片地址
+				 p_url = publish_data[i].p_url;
+				 p_topic = publish_data[i].topic;
+				 p_date = publish_data[i].pb_date;
+				 p_content = publish_data[i].content;
+				 p_category = publish_data[i].category;
+				 p_uid = publish_data[i].uid;
+				 if(p_category=='1'){
+					 p_category="油皮型"}
+				 if(p_category=='2'){
+					 p_category="干皮型"}
+				 if(p_category=='3'){
+					 p_category="混合型"}
+				 if(p_category=='4'){
+					 p_category="敏感型"}
+				 if(p_category=='5'){
+					 p_category="其他类型"}
+				p_type = publish_data[i].pb_type;
+				//p_uid = publish_data[i].uid;
+				//p_categry = publish_data[i].category;
+				var count = $("#greatcount").html();
+				var buy_url =publish_data[i].buy_url; 
+				if(buy_url==null||buy_url==''){
+					buy_url = "暂无链接提供";
+					
+				}else{
+					buy_url = publish_data[i].buy_url;
+				}
+				//获取发布人uname
+		$.post("/User/find",
+					'uid='+p_uid,
+					function(user){
+				for(var u=0; u<user.length;u++){
+					var p_name = user[u].uname;
+					var h = "";
+					h += "<div style='margin-left:7%;margin-top:5%'>"
+					+"<input class='p_detail' type='image' src='/img/"+p_url+"' style='width:200px;float:left;'></br>"
+					+"<a id='p_uid'style='display:none'>"+p_uid+"</a>"
+					+ "<div style='positive:relative;margin-left:10%;margin-top:20px;width:170px;float:left'><form style='font-size:16px'> "
+					+"主题："+ p_topic +"</br> 发布人：<a id='skip' href='javascript:skip()' >"+p_name+"</a></br>"
+					+"特性："+ p_category+"</br>描述："+ p_content+"</br>购买链接：<a href="+buy_url+" target='blank'>"+buy_url+"</a></form></div></div></br>"
+					+"<div style='positive:absolute;margin-left:90px;margin-top:48%'><a href='javascript:great()' style='font-size:14px;color:black'>赞("+count+")</a><a href='javascript:report()'  style='font-size:14px;margin-left:250px;color:black'>举报</a></div>";
+					$("#m_details").append(h);
+				}
+			});
+				
+				
+			};
+			
+		},"json");
+});
+   
+    
+   
+
+    
+ 
+	</script>
+
+</body>
+</html>

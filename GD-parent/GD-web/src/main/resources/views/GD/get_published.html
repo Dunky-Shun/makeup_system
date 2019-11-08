@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/css/themes/demo.css">
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<style>
+
+.image{
+	width:120px;
+}
+.info{
+
+margin-top: 10px;
+}	
+
+</style>
+</head>
+<body>
+	<div id="xdj" style="display: flex; 
+	justify-content: center; align-items: center; margin-top: 20px;">
+	
+	</div>
+	<div  style="positive:relative;width:200px;margin-left: 40%;margin-top:100px">本产品仅供参考</div>
+	
+	
+	<script type="text/javascript">
+	var p_url;
+	var p_name;
+	var p_type;
+	var content;
+	var p_id = $("#click_id").html();
+	
+	$.post("/Publish/getpublished",
+    		"pb_id="+p_id,
+			function(data){
+		for(var i=0;i<data.length;i++){
+			//p_ url 图片地址
+			 p_url = data[i].p_url;
+			p_content = data[i].content;
+			p_date = data[i].pb_date;
+			 p_topic = data[i].topic;
+		
+			var html = "";
+			
+			html += "<div><input class='p_detail' type='image' src='/img/"+p_url+"' style='width:300px;height:250px;border:1px solid black;'></br>"
+				+ "<form style='font-size:19px'>主题："+ p_topic +"</br>发布时间："+p_date+
+				"</br>内容："+ p_content+"</form></div>";
+				
+				$("#xdj").append(html);
+				
+				
+			
+		};
+	},"json");
+    
+   
+   
+   
+    
+    //获取登录用户名-->点赞人姓名
+    var username = $("#user").html();
+    $.post("/User/getcur",
+    		'uname='+username,
+    		function(userinfo){
+    	//获取发布人ID
+    	var u_id = userinfo.uid;
+    	 $("#dian").click(function(){
+    		 alert(userinfo.uid);
+    	 });
+    	});
+    
+   
+	</script>
+
+</body>
+</html>
