@@ -1,0 +1,132 @@
+#per_head {
+				position: relative;
+				margin: auto;
+				text-align: center;
+				width: 80%;
+				height: 300px;
+				background-image: url("/../img/annie.jpg");
+			}
+			
+			#per_photo {
+				position: relative;
+				margin-top: 20px;
+			}
+			
+			#per_img {
+				margin-top: 20px;
+			}
+
+			
+			#per_main {
+				position: relative;
+				margin: auto;
+				width:80%;
+				height: 50px;
+			}
+			#per_main_sub{
+				
+			}
+			
+			.easyui-linkbutton {
+				width: auto;
+			}
+			
+			#per_body{
+				position: relative;
+				margin: auto;
+				width: 80%;
+			}
+			
+			#my_left{
+				width: 250px;
+				/*text-align:center;*/
+				float: left;
+			}
+			#my_follow{
+				
+				margin-top: 20px;
+				width: 250px;
+				height: 50px;
+				background-color: #EEEEEE;
+				text-align:center;
+				border: solid 1px gainsboro;
+			}
+			#my_follow_sub{
+				margin-top: 10px;
+				width: 250px;
+				height: 50px;
+			}
+			
+			
+			#per_info{
+				background-color: #EEEEEE;
+				margin-top: 20px;
+				width: 250px;
+				/*height: 180px;*/
+				border: solid 1px gainsboro;
+			}
+			
+			#per_info_details{
+				margin-top:18px;
+				margin-left:20px;
+			}
+			ul li{
+				list-style: none;
+				color: #444444;
+			}
+			#change_info{
+				text-align: center;
+			}
+			
+			#my_publish{
+				position: relative;
+				margin-left: 300px;
+				width: 60%;
+			}
+			
+			#my_publish_sub{
+				width:  120%;
+				height: 200px;
+				margin-top: 20px;
+				border: solid 1px #CCCCCC;
+			}
+			
+			#per_photo_sub{
+				margin-left: 20px;
+				margin-top: 15px;
+				float: left;
+			}
+			#username_sub{
+				font-size:25px;
+			}
+			#User_name{
+				position: relative;
+				font-size:18px;
+				width: 250px;
+				height: 10px;
+				left: 20px;
+			}
+			#date{
+				position: relative;
+				width: 250px;
+				left: 24px;
+				font-size:10px;
+				margin-top: 19px;
+			}
+				#p_topic{
+				position: relative;
+				width: 250px;
+				margin-top: 10px;
+				left:20px;
+			}
+			#p_content{
+				position: absolute;
+				width: 400px;
+				left: 110px;
+				margin-top: 10px;
+			}
+			#per_foot{
+				position: relative;
+				width:510px;
+				margin:auto;
+			}
